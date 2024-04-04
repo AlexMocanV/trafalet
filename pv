@@ -1,0 +1,62 @@
+#include <fstream>
+#include <vector>
+using namespace std;
+
+ifstream cin("trafalet.in");
+ofstream cout("trafalet.out");
+
+long long mat[501][501];
+
+int main()
+{
+    ios_base::sync_with_stdio(false);
+    cin.tie(nullptr);
+    cout.tie(nullptr);
+    long long x;
+    short n,m;
+    cin>>n>>m;
+    for(int i=1;i<=n;++i)
+    {
+        for(int j=1;j<=m;++j)
+        {
+          cin>>x;
+          if((i+j)%2==0)
+          {
+            mat[i][j]=mat[i-1][j]-x;
+          }
+          else
+          {
+            mat[i][j]=mat[i-1][j]+x;
+          }
+
+        }
+    }
+    long long ans=0;
+    long long maxi=0;
+    for(int i=1;i<=n;i++)
+    {
+      for(int d=i;d<=n;++d)
+      {
+        long long sumapoz=0;
+        long long sumaneg=0;
+        for(int j=1;j<=m;++j)
+        {
+          sumapoz+=mat[d][j]-mat[i-1][j];
+          sumaneg+=mat[d][j]-mat[i-1][j];
+          ans=max(-sumaneg,ans);
+          ans=max(sumapoz,ans);
+          if(sumapoz<0)
+          {
+            sumapoz=0;
+          }
+          if(sumaneg>0)
+          {
+            sumaneg=0;
+          }
+        }
+
+      }
+    }
+    cout<<ans;
+    return 0;
+}
